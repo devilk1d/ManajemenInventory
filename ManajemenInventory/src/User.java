@@ -2,22 +2,37 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import dao.Koneksi;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import javax.swing.table.TableModel;
+
 /**
  *
  * @author YOGA
  */
 public class User extends javax.swing.JFrame {
+
     private int appuserPk = 0;
-    
+
     /**
      * Creates new form User
      */
     public User() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+
+    private boolean validateFields(String formType) {
+        if (formType.equals("edit") && !txtName.getText().equals("") && !txtMobileNumber.getText().equals("") && !txtEmail.getText().equals("") && !txtAddress.getText().equals("")) {
+            return false;
+        } else if (formType.equals("new") && !txtName.getText().equals("") && !txtMobileNumber.getText().equals("") && !txtEmail.getText().equals("") && !txtAddress.getText().equals("") && !txtPassword.getText().equals("")) {
+            return false;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -59,27 +74,32 @@ public class User extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Impact", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Abraham", 0, 36)); // NOI18N
         jLabel1.setText("Manage User");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(326, 16, 218, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, 180, -1));
 
         tableUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Name", "Mobile Number", "Email", "Address", "Status"
+                "ID", "Nama", "NoTelp", "Email", "Alamat", "Status"
             }
         ));
+        tableUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableUserMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableUser);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 67, 412, 527));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         jLabel2.setText("Name");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 89, 37, -1));
 
-        txtMobileNumber.setText("jTextField1");
+        txtMobileNumber.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         txtMobileNumber.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMobileNumberActionPerformed(evt);
@@ -87,18 +107,18 @@ public class User extends javax.swing.JFrame {
         });
         getContentPane().add(txtMobileNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 161, 339, -1));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         jLabel3.setText("Mobile Number");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 139, -1, -1));
 
-        txtName.setText("jTextField1");
+        txtName.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 111, 339, -1));
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         jLabel4.setText("Email");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 189, 37, -1));
 
-        txtAddress.setText("jTextField1");
+        txtAddress.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         txtAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtAddressActionPerformed(evt);
@@ -106,18 +126,18 @@ public class User extends javax.swing.JFrame {
         });
         getContentPane().add(txtAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 261, 339, -1));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         jLabel5.setText("Address");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 239, -1, -1));
 
-        txtEmail.setText("jTextField1");
+        txtEmail.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 211, 339, -1));
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         jLabel6.setText("Password");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 289, -1, -1));
 
-        comboBoxStatus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        comboBoxStatus.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         comboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Inactive", " " }));
         comboBoxStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,14 +146,19 @@ public class User extends javax.swing.JFrame {
         });
         getContentPane().add(comboBoxStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 361, 339, -1));
 
-        txtPassword.setText("jTextField5");
+        txtPassword.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPasswordActionPerformed(evt);
+            }
+        });
         getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 311, 339, -1));
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         jLabel7.setText("Status");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 339, -1, -1));
 
-        btnSave.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSave.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,7 +167,7 @@ public class User extends javax.swing.JFrame {
         });
         getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 401, 75, -1));
 
-        btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnUpdate.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -151,8 +176,8 @@ public class User extends javax.swing.JFrame {
         });
         getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(572, 401, 75, -1));
 
-        btnReset.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnReset.setText("Reset");
+        btnReset.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
+        btnReset.setText("Delete");
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnResetActionPerformed(evt);
@@ -160,7 +185,7 @@ public class User extends javax.swing.JFrame {
         });
         getContentPane().add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(659, 401, 75, -1));
 
-        btnClose.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnClose.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         btnClose.setText("Close");
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -171,33 +196,29 @@ public class User extends javax.swing.JFrame {
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background.jpg"))); // NOI18N
         jLabel8.setText("jLabel8");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(-100, -20, -1, -1));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 850, 620));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) tableUser.getModel();
-        try(
-            Connection con = ConnectionProvider.getCon();
+        try {
+            Connection con = Koneksi.getCon();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select *from appuser where userRole='Admin'")
-            while(rs.next())(
-              
-            )
-        )
-        catch(Exception e) (
-            JOptionPane.showMessageDialog(null, e)
-        );
+            ResultSet rs = st.executeQuery("select *from appuser where userRole='Admin'");
+            while (rs.next()) {
+                model.addRow(new Object[]{rs.getString("appuser_pk"), rs.getString("nama"), rs.getString("noTelp"), rs.getString("email"), rs.getString("alamat"), rs.getString("status")});
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+        btnUpdate.setEnabled(false);
     }//GEN-LAST:event_formComponentShown
 
-        catch (SQLException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-    
-        catch (SQLException ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-    
     private void txtMobileNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMobileNumberActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMobileNumberActionPerformed
@@ -212,19 +233,129 @@ public class User extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
+        String nama = txtName.getText();
+        String noTelp = txtMobileNumber.getText();
+        String email = txtEmail.getText();
+        String password = txtPassword.getText();
+        String address = txtAddress.getText();
+        String status = (String) comboBoxStatus.getSelectedItem();
+
+        if (validateFields("new")) {
+            JOptionPane.showMessageDialog(null, "All field are required");
+        } else {
+            try {
+                Connection con = Koneksi.getCon();
+                PreparedStatement ps = con.prepareStatement("insert into appuser (userRole,nama,noTelp,email,password,alamat,status) values ('Admin',?,?,?,?,?,?)");
+                ps.setString(1, nama);
+                ps.setString(2, noTelp);
+                ps.setString(3, email);
+                ps.setString(4, password);
+                ps.setString(5, address);
+                ps.setString(6, status);
+                ps.executeUpdate();
+                JOptionPane.showMessageDialog(null, "User Berhasil Ditambahkan");
+                setVisible(false);
+                new User().setVisible(true);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
+        String nama = txtName.getText();
+        String noTelp = txtMobileNumber.getText();
+        String email = txtEmail.getText();
+        String address = txtAddress.getText();
+        String status = (String) comboBoxStatus.getSelectedItem();
+
+        if (validateFields("edit")) {
+            JOptionPane.showMessageDialog(null, "All field are required");
+        } else {
+            try {
+                Connection con = Koneksi.getCon();
+                PreparedStatement ps = con.prepareStatement("update appuser set nama=?,noTelp=?,email=?,alamat=?,status=? where appuser_pk=?");
+                ps.setString(1, nama);
+                ps.setString(2, noTelp);
+                ps.setString(3, email);
+                ps.setString(4, address);
+                ps.setString(5, status);
+                ps.setInt(6, appuserPk);
+                ps.executeUpdate();
+                JOptionPane.showMessageDialog(null, "User Berhasil Diperbarui");
+                setVisible(false);
+                new User().setVisible(true);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         // TODO add your handling code here:
+        if (appuserPk == 0) {
+            JOptionPane.showMessageDialog(null, "Please select a category to delete");
+        } else {
+            try {
+                Connection con = Koneksi.getCon();
+                PreparedStatement ps = con.prepareStatement("delete from appuser where appuser_pk=?");
+                ps.setInt(1, appuserPk);
+                ps.executeUpdate();
+                JOptionPane.showMessageDialog(null, "User Berhasil Dihapus");
+                setVisible(false);
+                new User().setVisible(true);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         // TODO add your handling code here:
+        setVisible(false);
     }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordActionPerformed
+
+    private void tableUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableUserMouseClicked
+        // TODO add your handling code here:
+        int index = tableUser.getSelectedRow();
+        TableModel model = tableUser.getModel();
+
+        String id = model.getValueAt(index, 0).toString();
+        appuserPk = Integer.parseInt(id);
+
+        String nama = model.getValueAt(index, 1).toString();
+        txtName.setText(nama);
+
+        String noTelp = model.getValueAt(index, 2).toString();
+        txtMobileNumber.setText(noTelp);
+
+        String email = model.getValueAt(index, 3).toString();
+        txtEmail.setText(email);
+
+        String alamat = model.getValueAt(index, 4).toString();
+        txtAddress.setText(alamat);
+
+        String status = model.getValueAt(index, 5).toString();
+        comboBoxStatus.removeAllItems();
+        if (status.equals("Active")) {
+            comboBoxStatus.addItem("Active");
+            comboBoxStatus.addItem("Inactive");
+        } else {
+            comboBoxStatus.addItem("Inactive");
+            comboBoxStatus.addItem("Active");
+        }
+
+        txtPassword.setEditable(false);
+        txtPassword.setBackground(Color.DARK_GRAY);
+
+        btnSave.setEnabled(false);
+        btnUpdate.setEnabled(true);
+    }//GEN-LAST:event_tableUserMouseClicked
 
     /**
      * @param args the command line arguments

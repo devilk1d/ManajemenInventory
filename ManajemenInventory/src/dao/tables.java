@@ -21,7 +21,10 @@ public class tables {
             con = Koneksi.getCon();
             st = con.createStatement();
             //st.executeUpdate("create table appuser(appuser_pk int AUTO_INCREMENT primary key,userRole varchar(50),nama varchar(200),noTelp varchar(50),email varchar(200),password varchar(50),alamat varchar(200),status varchar(50) )");
-            st.executeUpdate("insert into appuser (userRole,nama,noTelp,email,password,alamat,status) values('SuperAdmin','Super Admin','12345','SAdmin@MWB.com','admin','Indonesia','Active')");
+            //st.executeUpdate("insert into appuser (userRole,nama,noTelp,email,password,alamat,status) values('SuperAdmin','Super Admin','12345','SAdmin@MWB.com','admin','Indonesia','Active')");
+            //st.executeUpdate("create table category(category_pk int AUTO_INCREMENT primary key, name varchar(200))"); 
+            //st.executeUpdate("create table product(product_pk int AUTO_INCREMENT primary key,name varchar(200),quantity int,price int,description varchar(500),category_fk int)");
+            //st.executeUpdate("create table customer(customer_pk int AUTO_INCREMENT primary key,name varchar(200),noTelp varchar(50),email varchar(200))");
             JOptionPane.showMessageDialog(null, "Tabel berhasil dibuat");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -29,8 +32,7 @@ public class tables {
             try {
                 con.close();
                 st.close();
-            } 
-            catch (Exception e) {
+            } catch (Exception e) {
             }
         }
     }

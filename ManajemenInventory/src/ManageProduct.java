@@ -6,6 +6,8 @@
 import javax.swing.JOptionPane;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
+import dao.Koneksi;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -24,15 +26,15 @@ public class ManageProduct extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void getAllCatagory() {
+    private void getAllCategory() {
         try {
-            Connection con = ConnectionProvider.getCon();
+            Connection con = Koneksi.getCon();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select 'form catagory");
-            comboBoxCatagory.removeAllItems();
+            ResultSet rs = st.executeQuery("select *from category");
+            comboBoxCategory.removeAllItems();
             while (rs.next()) {
-                comboBoxCatagory.addItem(rs.getString("catagory.pk") + '-' + rs.getString("name"));
-                // 1-TestCatagory
+                comboBoxCategory.addItem(rs.getString("category_pk") + '-' + rs.getString("name"));
+                // 1-TestCategory
             }
 
         } catch (Exception e) {
@@ -71,8 +73,8 @@ public class ManageProduct extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtDescription = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        comboBoxCatagory = new javax.swing.JComboBox<>();
-        btnText = new javax.swing.JButton();
+        comboBoxCategory = new javax.swing.JComboBox<>();
+        btnSave = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
@@ -80,6 +82,7 @@ public class ManageProduct extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(850, 600));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -87,10 +90,11 @@ public class ManageProduct extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Abraham", 0, 36)); // NOI18N
         jLabel1.setText("Manage Product");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(328, 22, -1, -1));
 
+        tableProduct.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         tableProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -108,105 +112,107 @@ public class ManageProduct extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 431, 488));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         jLabel2.setText("Name");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 140, -1, -1));
 
-        txtName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtName.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         txtName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNameActionPerformed(evt);
             }
         });
-        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 163, 380, 20));
+        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 160, 380, 30));
 
-        lblQuantity.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblQuantity.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         lblQuantity.setText("Quantity");
-        getContentPane().add(lblQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 200, -1, -1));
+        getContentPane().add(lblQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 200, -1, -1));
 
-        txtQuantity.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        getContentPane().add(txtQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 223, 380, 20));
+        txtQuantity.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
+        getContentPane().add(txtQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 220, 380, 30));
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         jLabel4.setText("Price");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 260, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 260, -1, -1));
 
-        txtPrice.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtPrice.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         txtPrice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPriceActionPerformed(evt);
             }
         });
-        getContentPane().add(txtPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 283, 380, 20));
+        getContentPane().add(txtPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 280, 380, 30));
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         jLabel5.setText("Description");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 320, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 320, -1, -1));
 
-        txtDescription.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        getContentPane().add(txtDescription, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 343, 380, 20));
+        txtDescription.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
+        getContentPane().add(txtDescription, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 340, 380, 30));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         jLabel6.setText("Catagory");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 380, -1, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 380, -1, -1));
 
-        comboBoxCatagory.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        comboBoxCatagory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(comboBoxCatagory, new org.netbeans.lib.awtextra.AbsoluteConstraints(472, 403, 380, 20));
+        comboBoxCategory.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
+        comboBoxCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxCategory.setToolTipText("");
+        getContentPane().add(comboBoxCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 400, 380, 30));
 
-        btnText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnText.setText("Save");
-        btnText.addActionListener(new java.awt.event.ActionListener() {
+        btnSave.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTextActionPerformed(evt);
+                btnSaveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnText, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 440, -1, -1));
+        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 440, -1, -1));
 
-        btnUpdate.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnUpdate.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
             }
         });
-        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 440, -1, -1));
+        getContentPane().add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 440, -1, -1));
 
-        btnReset.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnReset.setText("Reset");
+        btnReset.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
+        btnReset.setText("Delete");
         btnReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnResetActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 440, -1, -1));
+        getContentPane().add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 440, -1, -1));
 
-        btnClose.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnClose.setFont(new java.awt.Font("SF Pro Display", 1, 12)); // NOI18N
         btnClose.setText("Close");
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCloseActionPerformed(evt);
             }
         });
-        getContentPane().add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 440, -1, -1));
+        getContentPane().add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 440, -1, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background.jpg"))); // NOI18N
         jLabel3.setText("jLabel3");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-2, -12, 1420, 790));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
-        getAllCatagory();
+        getAllCategory();
         DefaultTableModel model = (DefaultTableModel) tableProduct.getModel();
         try {
-            Connection con = ConnectionProvider.getCon();
+            Connection con = Koneksi.getCon();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select 'from product inner join catagory on product.catagory_fk = catagory.catagory_pk");
+            ResultSet rs = st.executeQuery("select *from product inner join category on product.category_fk = category.category_pk");
             while (rs.next()) {
-                model.addRow(new Object[]{rs.getString("product_pk"), rs.getString("name"), rs.getString("quantity"), rs.getString("price"), rs.getString("description"), rs.getString("catagory_fk"), rs.getString("8")});
+                model.addRow(new Object[]{rs.getString("product_pk"), rs.getString("name"), rs.getString("quantity"), rs.getString("price"), rs.getString("description"), rs.getString("category_fk"), rs.getString(8)});
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -214,27 +220,27 @@ public class ManageProduct extends javax.swing.JFrame {
         btnUpdate.setEnabled(false);
     }//GEN-LAST:event_formComponentShown
 
-    private void btnTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTextActionPerformed
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
         String name = txtName.getText();
         String quantity = txtQuantity.getText();
         String price = txtPrice.getText();
         String description = txtDescription.getText();
-        String catagory = (String) comboBoxCatagory.getSelectedItem();
-        String catagoryId[] = catagory.split("-", 0);
+        String category = (String) comboBoxCategory.getSelectedItem();
+        String categoryId[] = category.split("-", 0);
         if (validateFields("new")) {
             JOptionPane.showMessageDialog(null, "All fields are required");
         } else {
             try {
-                Connection con = ConnectionProvider.getCon();
-                PreparedStatement ps = con.prepareStatement("insert into product (name,quantity,price,description,catagory_fk) value(?,?,?,?,?)");
+                Connection con = Koneksi.getCon();
+                PreparedStatement ps = con.prepareStatement("insert into product (name,quantity,price,description,category_fk) value(?,?,?,?,?)");
                 ps.setString(1, name);
                 ps.setString(2, quantity);
                 ps.setString(3, price);
                 ps.setString(4, description);
-                ps.setString(5, catagoryId[0]);
+                ps.setString(5, categoryId[0]);
                 ps.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Product Added Successfully");
+                JOptionPane.showMessageDialog(null, "Product berhasil ditambahkan");
                 setVisible(false);
                 new ManageProduct().setVisible(true);
             } catch (Exception e) {
@@ -242,7 +248,7 @@ public class ManageProduct extends javax.swing.JFrame {
             }
         }
 
-    }//GEN-LAST:event_btnTextActionPerformed
+    }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
@@ -250,8 +256,8 @@ public class ManageProduct extends javax.swing.JFrame {
         String quantity = txtQuantity.getText();
         String price = txtPrice.getText();
         String description = txtDescription.getText();
-        String catagory = (String) comboBoxCatagory.getSelectedItem();
-        String catagoryId[] = catagory.split("-", 0);
+        String category = (String) comboBoxCategory.getSelectedItem();
+        String categoryId[] = category.split("-", 0);
         if (validateFields("edit")) {
             JOptionPane.showMessageDialog(null, "All fields are required");
         } else {
@@ -259,16 +265,16 @@ public class ManageProduct extends javax.swing.JFrame {
                 if(!quantity.equals("")){
                     totalQuantity = totalQuantity + Integer.parseInt(quantity);
                 }
-                Connection con = ConnectionProvider.getCon();
-                PreparedStatement ps = con.prepareStatement("update product set name=?,quantity=?,price=?,description=?,catagory_fk=? where product_pk=?");
+                Connection con = Koneksi.getCon();
+                PreparedStatement ps = con.prepareStatement("update product set name=?,quantity=?,price=?,description=?,category_fk=? where product_pk=?");
                 ps.setString(1, name);
                 ps.setInt(2, totalQuantity);
                 ps.setString(3, price);
                 ps.setString(4, description);
-                ps.setString(5, catagoryId[0]);
+                ps.setString(5, categoryId[0]);
                 ps.setInt(6, productPk);
                 ps.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Product Update Successfully");
+                JOptionPane.showMessageDialog(null, "Product berhasil diperbarui");
                 setVisible(false);
                 new ManageProduct().setVisible(true);
             } catch (Exception e) {
@@ -292,9 +298,21 @@ public class ManageProduct extends javax.swing.JFrame {
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         // TODO add your handling code here:
-        setVisible(false);
-        new ManageProduct().setVisible(true);
-
+        if (productPk == 0) {
+            JOptionPane.showMessageDialog(null, "Please select a product to delete");
+        } else {
+            try {
+                Connection con = Koneksi.getCon();
+                PreparedStatement ps = con.prepareStatement("delete from category where category_pk=?");
+                ps.setInt(1, productPk);
+                ps.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Product Berhasil Dihapus");
+                setVisible(false);
+                new ManageProduct().setVisible(true);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void tableProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductMouseClicked
@@ -318,18 +336,18 @@ public class ManageProduct extends javax.swing.JFrame {
         String description = model.getValueAt(index, 4).toString();
         txtDescription.setText(description);
 
-        comboBoxCatagory.removeAllItems();
-        String catagoryId = model.getValueAt(index, 5).toString();
-        String catagoryName = model.getValueAt(index, 6).toString();
-        comboBoxCatagory.addItem(catagoryId + "-" + catagoryName);
+        comboBoxCategory.removeAllItems();
+        String categoryId = model.getValueAt(index, 5).toString();
+        String categoryName = model.getValueAt(index, 6).toString();
+        comboBoxCategory.addItem(categoryId + "-" + categoryName);
 
         try {
-            Connection con = ConnectionProvider.getCon();
+            Connection con = Koneksi.getCon();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select 'form catagory");
+            ResultSet rs = st.executeQuery("select *from category");
             while (rs.next()) {
-                if (Integer.parseInt(catagoryId) != rs.getInt(1)) {
-                    comboBoxCatagory.addItem(rs.getString("catagory.pk") + '-' + rs.getString("name"));
+                if (Integer.parseInt(categoryId) != rs.getInt(1)) {
+                    comboBoxCategory.addItem(rs.getString("category_pk") + '-' + rs.getString("name"));
                 }
             }
 
@@ -337,7 +355,7 @@ public class ManageProduct extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
 
-        btnSave.setEnable(false);
+        btnSave.setEnabled(false);
         btnUpdate.setEnabled(true);
     }//GEN-LAST:event_tableProductMouseClicked
 
@@ -379,9 +397,9 @@ public class ManageProduct extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnReset;
-    private javax.swing.JButton btnText;
+    private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> comboBoxCatagory;
+    private javax.swing.JComboBox<String> comboBoxCategory;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
