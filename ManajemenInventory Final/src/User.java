@@ -25,16 +25,6 @@ public class User extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    private boolean validateFields(String formType) {
-        if (formType.equals("edit") && !txtName.getText().equals("") && !txtMobileNumber.getText().equals("") && !txtEmail.getText().equals("") && !txtAddress.getText().equals("")) {
-            return false;
-        } else if (formType.equals("new") && !txtName.getText().equals("") && !txtMobileNumber.getText().equals("") && !txtEmail.getText().equals("") && !txtAddress.getText().equals("") && !txtPassword.getText().equals("")) {
-            return false;
-        } else {
-            return false;
-        }
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -240,8 +230,8 @@ public class User extends javax.swing.JFrame {
         String address = txtAddress.getText();
         String status = (String) comboBoxStatus.getSelectedItem();
 
-        if (validateFields("new")) {
-            JOptionPane.showMessageDialog(null, "All field are required");
+        if (nama.isEmpty() || noTelp.isEmpty() || email.isEmpty() || address.isEmpty() || status == null) {
+            JOptionPane.showMessageDialog(null, "Data Tidak Boleh Kosong");
         } else {
             try {
                 Connection con = Koneksi.getCon();
@@ -270,8 +260,8 @@ public class User extends javax.swing.JFrame {
         String address = txtAddress.getText();
         String status = (String) comboBoxStatus.getSelectedItem();
 
-        if (validateFields("edit")) {
-            JOptionPane.showMessageDialog(null, "All field are required");
+        if (nama.isEmpty() || noTelp.isEmpty() || email.isEmpty() || address.isEmpty() || status == null) {
+            JOptionPane.showMessageDialog(null, "Data Tidak Boleh Kosong");
         } else {
             try {
                 Connection con = Koneksi.getCon();
